@@ -1,15 +1,38 @@
+import { useState } from "react";
 import "./App.css";
-import './input.css';
-
-
+import NoProjectSelected from "./components/NoProjectSelected";
+import ProjectsSidebar from "./components/ProjectsSidebar";
+import "./input.css";
+import NewProject from "./components/NewProject";
 
 function App() {
+  const [ProjectsState, SetProjectsState] = useState({
+    SelectedProjectId: undefined,
+    projects: [],
+  });
+
+  function handelStartAddProjet() {
+    SetProjectsState((prevState) => {
+      return {
+        ...prevState,
+        SelectedProjectId: null,
+      };
+    });
+  }
+
+  let content;
+  if (ProjectsState.SelectedProjectId === null) {
+    content = <NewProject />;
+  } else if (ProjectsState.SelectedProjectId === undefined) {
+    content = <NoProjectSelected onStartAddProject={handelStartAddProjet} />;
+  }
+
   return (
-    <>
-      <h1 class="text-3xl font-bold underline text-center text-blue-500 bg-gray-100 p-4 rounded-lg shadow-lg hover:text-red-500 transition duration-300">
-      Management App
-      </h1>
-    </>
+    <main className="h-screen my-8 bg-slate-100 flex gap-8">
+      <ProjectsSidebar onStartAddProject={handelStartAddProjet} />
+      {/* <NoProjectSelected onStartAddProject={handelStartAddProjet} /> */}
+      {content}
+    </main>
   );
 }
 
