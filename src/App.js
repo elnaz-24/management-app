@@ -6,30 +6,44 @@ import "./input.css";
 import NewProject from "./components/NewProject";
 
 function App() {
-  const [ProjectsState, SetProjectsState] = useState({
-    SelectedProjectId: undefined,
+  const [projectsState, setProjectsState] = useState({
+    selectedProjectId: undefined,
     projects: [],
   });
 
-  function handelStartAddProjet() {
-    SetProjectsState((prevState) => {
+  function handleStartAddProjet() {
+    setProjectsState((prevState) => {
       return {
         ...prevState,
-        SelectedProjectId: null,
+        selectedProjectId: null,
       };
     });
   }
+  //154
+  function handleAddProject(projectData) {
+    setProjectsState((prevState) => {
+      const newProject = {
+        ...projectData,
+        id: Math.random(),
+      };
+      return {
+        ...prevState,
+        projects: [...prevState.projects, newProject],
+      };
+    });
+  }
+  console.log(projectsState);
 
   let content;
-  if (ProjectsState.SelectedProjectId === null) {
-    content = <NewProject />;
-  } else if (ProjectsState.SelectedProjectId === undefined) {
-    content = <NoProjectSelected onStartAddProject={handelStartAddProjet} />;
+  if (projectsState.selectedProjectId === null) {
+    content = <NewProject onAdd={handleAddProject} />;
+  } else if (projectsState.selectedProjectId === undefined) {
+    content = <NoProjectSelected onStartAddProject={handleStartAddProjet} />;
   }
 
   return (
     <main className="h-screen my-8 bg-slate-100 flex gap-8">
-      <ProjectsSidebar onStartAddProject={handelStartAddProjet} />
+      <ProjectsSidebar onStartAddProject={handleStartAddProjet} />
       {/* <NoProjectSelected onStartAddProject={handelStartAddProjet} /> */}
       {content}
     </main>
