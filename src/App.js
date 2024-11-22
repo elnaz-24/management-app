@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import "./App.css";
 import NoProjectSelected from "./components/NoProjectSelected";
@@ -20,6 +19,16 @@ function App() {
       };
     });
   }
+  // Define Cancel Button
+  function handleCancelAddProject() {
+    setProjectsState((prevState) => {
+      return {
+        ...prevState,
+        selectedProjectId: undefined,
+      };
+    });
+  }
+
   //154
   function handleAddProject(projectData) {
     setProjectsState((prevState) => {
@@ -43,7 +52,9 @@ function App() {
 
   let content;
   if (projectsState.selectedProjectId === null) {
-    content = <NewProject onAdd={handleAddProject} />;
+    content = (
+      <NewProject onAdd={handleAddProject} onCancel={handleCancelAddProject} />
+    );
   } else if (projectsState.selectedProjectId === undefined) {
     content = <NoProjectSelected onStartAddProject={handleStartAddProjet} />;
   }
