@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import "./App.css";
 import NoProjectSelected from "./components/NoProjectSelected";
@@ -22,17 +23,23 @@ function App() {
   //154
   function handleAddProject(projectData) {
     setProjectsState((prevState) => {
+      const projectId = Math.random();
       const newProject = {
         ...projectData,
-        id: Math.random(),
+        // id: Math.random(),
+        id: projectId,
       };
       return {
         ...prevState,
+        //with  push save buttom return to first page
+        selectedProjectId: undefined,
+        // selectedProjectId: projectId,
+
         projects: [...prevState.projects, newProject],
       };
     });
   }
-  console.log(projectsState);
+  // console.log(projectsState);
 
   let content;
   if (projectsState.selectedProjectId === null) {
@@ -43,7 +50,10 @@ function App() {
 
   return (
     <main className="h-screen my-8 bg-slate-100 flex gap-8">
-      <ProjectsSidebar onStartAddProject={handleStartAddProjet} />
+      <ProjectsSidebar
+        onStartAddProject={handleStartAddProjet}
+        projects={projectsState.projects} //add data to sidebar
+      />
       {/* <NoProjectSelected onStartAddProject={handelStartAddProjet} /> */}
       {content}
     </main>
