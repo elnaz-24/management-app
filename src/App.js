@@ -4,12 +4,23 @@ import NoProjectSelected from "./components/NoProjectSelected";
 import ProjectsSidebar from "./components/ProjectsSidebar";
 import "./input.css";
 import NewProject from "./components/NewProject";
+import SelectedProject from "./components/SelectedProject";
 
 function App() {
   const [projectsState, setProjectsState] = useState({
     selectedProjectId: undefined,
     projects: [],
   });
+
+  //show detail of sidebar data
+  function handleSelectProject(id) {
+    setProjectsState((prevState) => {
+      return {
+        ...prevState,
+        selectedProjectId: id,
+      };
+    });
+  }
 
   function handleStartAddProjet() {
     setProjectsState((prevState) => {
@@ -49,8 +60,8 @@ function App() {
     });
   }
   // console.log(projectsState);
-
-  let content;
+const selectedProject=projectsState.projects.find(project=>project.id===projectsState.selectedProjectId)
+  let content=<SelectedProject project={selectedProject}/>;
   if (projectsState.selectedProjectId === null) {
     content = (
       <NewProject onAdd={handleAddProject} onCancel={handleCancelAddProject} />
@@ -64,6 +75,7 @@ function App() {
       <ProjectsSidebar
         onStartAddProject={handleStartAddProjet}
         projects={projectsState.projects} //add data to sidebar
+        onSelectProject={handleSelectProject} //show detail of sidbar data
       />
       {/* <NoProjectSelected onStartAddProject={handelStartAddProjet} /> */}
       {content}
