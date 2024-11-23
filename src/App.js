@@ -126,6 +126,7 @@ function App() {
         onStartAddProject={handleStartAddProjet}
         projects={projectsState.projects} //add data to sidebar
         onSelectProject={handleSelectProject} //show detail of sidbar data
+        selectProjectId={projectsState.selectedProjectId}
       />
       {/* <NoProjectSelected onStartAddProject={handelStartAddProjet} /> */}
       {content}
